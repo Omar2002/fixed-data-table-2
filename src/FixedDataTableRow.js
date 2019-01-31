@@ -95,11 +95,6 @@ class FixedDataTableRowImpl extends React.Component {
     width: PropTypes.number.isRequired,
 
     /**
-     * Function to wrap row
-     */
-    rowWrapperGetter: PropTypes.func,
-
-    /**
      * Fire when a row is clicked.
      */
     onClick: PropTypes.func,
@@ -257,7 +252,7 @@ class FixedDataTableRowImpl extends React.Component {
         />;
     }
 
-    return this._wrapRow(
+    return (
       <div
         className={joinClasses(className, this.props.className)}
         onClick={this.props.onClick ? this._onClick : null}
@@ -287,11 +282,6 @@ class FixedDataTableRowImpl extends React.Component {
         {columnsRightShadow}
       </div>
     , this.props.index);
-  }
-
-  _wrapRow(/*object*/ children, /*number*/ index) /*object*/ {
-    var rowWrapperGetter = this.props.rowWrapperGetter;
-    return rowWrapperGetter ? rowWrapperGetter(children, index) : children;
   }
 
   _getColumnsWidth = (/*array*/ columns) => /*number*/ {
@@ -446,6 +436,11 @@ class FixedDataTableRow extends React.Component {
      * Width of the row.
      */
     width: PropTypes.number.isRequired,
+
+    /**
+     * Function to wrap row
+     */
+    rowWrapperGetter: PropTypes.func,
   };
 
   componentWillMount() {
@@ -464,7 +459,7 @@ class FixedDataTableRow extends React.Component {
     };
     FixedDataTableTranslateDOMPosition(style, 0, this.props.offsetTop, this._initialRender);
 
-    return (
+    return this._wrapRow(
       <div
         style={style}
         className={cx('fixedDataTableRowLayout/rowWrapper')}>
@@ -475,6 +470,11 @@ class FixedDataTableRow extends React.Component {
         />
       </div>
     );
+  }
+
+  _wrapRow(/*object*/ children, /*number*/ index) /*object*/ {
+    var rowWrapperGetter = this.props.rowWrapperGetter;
+    return rowWrapperGetter ? rowWrapperGetter(children, index) : children;
   }
 }
 
