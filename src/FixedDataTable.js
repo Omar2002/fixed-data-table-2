@@ -276,6 +276,16 @@ var FixedDataTable = createReactClass({
     footerHeight: PropTypes.number,
 
     /**
+     * Wrap row
+     */
+    rowWrapperGetter: PropTypes.func,
+
+    /**
+     * Wrap rows container
+     */
+    rowsContainerWrapGetter: PropTypes.func,
+
+    /**
      * Value of horizontal scroll.
      */
     scrollLeft: PropTypes.number,
@@ -849,6 +859,8 @@ var FixedDataTable = createReactClass({
         fixedRightColumns={state.bodyFixedRightColumns}
         height={state.bodyHeight}
         offsetTop={offsetTop}
+        rowsContainerWrapGetter={state.rowsContainerWrapGetter}
+        rowWrapperGetter={state.rowWrapperGetter}
         onRowClick={state.onRowClick}
         onRowDoubleClick={state.onRowDoubleClick}
         onRowContextMenu={state.onRowContextMenu}

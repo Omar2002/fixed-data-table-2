@@ -95,6 +95,11 @@ class FixedDataTableRowImpl extends React.Component {
     width: PropTypes.number.isRequired,
 
     /**
+     * Function to wrap row
+     */
+    rowWrapperGetter: PropTypes.func,
+
+    /**
      * Fire when a row is clicked.
      */
     onClick: PropTypes.func,
@@ -252,7 +257,7 @@ class FixedDataTableRowImpl extends React.Component {
         />;
     }
 
-    return (
+    return this._wrapRow(
       <div
         className={joinClasses(className, this.props.className)}
         onClick={this.props.onClick ? this._onClick : null}
@@ -281,7 +286,12 @@ class FixedDataTableRowImpl extends React.Component {
         </div>}
         {columnsRightShadow}
       </div>
-    );
+    , this.props.index);
+  }
+
+  _wrapRow(/*object*/ children, /*number*/ index) /*object*/ {
+    var rowWrapperGetter = this.props.rowWrapperGetter;
+    return rowWrapperGetter ? rowWrapperGetter(children, index) : children;
   }
 
   _getColumnsWidth = (/*array*/ columns) => /*number*/ {

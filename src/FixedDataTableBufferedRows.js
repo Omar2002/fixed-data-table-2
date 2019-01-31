@@ -44,6 +44,8 @@ var FixedDataTableBufferedRows = createReactClass({
     onRowTouchEnd: PropTypes.func,
     onRowTouchMove: PropTypes.func,
     rowClassNameGetter: PropTypes.func,
+    rowWrapperGetter: PropTypes.func,
+    rowsContainerWrapGetter: PropTypes.func,
     rowsCount: PropTypes.number.isRequired,
     rowHeightGetter: PropTypes.func,
     subRowHeight: PropTypes.number,
@@ -174,6 +176,7 @@ var FixedDataTableBufferedRows = createReactClass({
           fixedColumns={props.fixedColumns}
           fixedRightColumns={props.fixedRightColumns}
           scrollableColumns={props.scrollableColumns}
+          rowWrapperGetter={props.rowWrapperGetter}
           onClick={props.onRowClick}
           onDoubleClick={props.onRowDoubleClick}
           onContextMenu={props.onRowContextMenu}
@@ -196,7 +199,12 @@ var FixedDataTableBufferedRows = createReactClass({
         />;
     }
 
-    return <div>{this._staticRowArray}</div>;
+    return this._getRowsContainer(this._staticRowArray);
+  },
+
+  _getRowsContainer(/*object*/ children) /*object*/ {
+    var rowsContainerWrapGetter = this.props.rowsContainerWrapGetter;
+    return rowsContainerWrapGetter ? rowsContainerWrapGetter(children) : <div>{children}</div>;
   },
 
   _getRowHeight(/*number*/ index) /*number*/ {
